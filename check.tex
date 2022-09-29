@@ -1,0 +1,259 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{AMPSS\_CFPScheck}
+\author{Xuanyu Lyu}
+\date{9/26/2022}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={AMPSS\_CFPScheck},
+  pdfauthor={Xuanyu Lyu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(haven)}
+\NormalTok{df\_links }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"siblinks.csv"}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+\NormalTok{df\_p2018\_c }\OtherTok{\textless{}{-}} \FunctionTok{read\_sas}\NormalTok{(}\StringTok{"cfps2018person\_202012.sas7bdat"}\NormalTok{)}
+\NormalTok{df\_c2018\_c }\OtherTok{\textless{}{-}} \FunctionTok{read\_sas}\NormalTok{(}\StringTok{"cfps2018childproxy\_202012.sas7bdat"}\NormalTok{)}
+
+\NormalTok{df\_target }\OtherTok{\textless{}{-}}\NormalTok{ df\_p2018\_c[,}\FunctionTok{c}\NormalTok{(}\StringTok{"PID"}\NormalTok{, }
+                           \CommentTok{\#("QM2..$", names(df\_p2018\_c), value=TRUE), \#personality}
+                           \FunctionTok{grep}\NormalTok{(}\StringTok{"QN4..$"}\NormalTok{, }\FunctionTok{names}\NormalTok{(df\_p2018\_c), }\AttributeTok{value=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{), }\CommentTok{\#mental health}
+                           \CommentTok{\#grep("Q..T...$", names(df\_p2018\_c), value=TRUE, ignore.case = TRUE), }
+                           \FunctionTok{grep}\NormalTok{(}\StringTok{"QM1..M$"}\NormalTok{, }\FunctionTok{names}\NormalTok{(df\_p2018\_c), }\AttributeTok{value=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{), }\CommentTok{\#self{-}esteem}
+                           \FunctionTok{grep}\NormalTok{(}\StringTok{"QM5..$"}\NormalTok{, }\FunctionTok{names}\NormalTok{(df\_p2018\_c), }\AttributeTok{value=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{), }\CommentTok{\#life attitudes}
+                           \FunctionTok{grep}\NormalTok{(}\StringTok{"QN100."}\NormalTok{, }\FunctionTok{names}\NormalTok{(df\_p2018\_c), }\AttributeTok{value=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{),}\CommentTok{\# trust tendency}
+                           \FunctionTok{grep}\NormalTok{(}\StringTok{"WV10.$"}\NormalTok{, }\FunctionTok{names}\NormalTok{(df\_p2018\_c), }\AttributeTok{value=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{),}\CommentTok{\# attitudes towards society}
+                           \StringTok{"mathtest18"}\NormalTok{, }\CommentTok{\# math test}
+                           \StringTok{"wordtest18"}  \CommentTok{\# word test}
+\NormalTok{                           ),]}
+
+\NormalTok{df\_target[df\_target }\SpecialCharTok{\textless{}=} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+
+\NormalTok{df\_links\_sib }\OtherTok{\textless{}{-}}\NormalTok{ df\_links}
+\NormalTok{df\_links\_sib }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(df\_links\_sib, df\_target, }\AttributeTok{by.x =} \StringTok{"X1"}\NormalTok{, }\AttributeTok{by.y =} \StringTok{"PID"}\NormalTok{, }\AttributeTok{all.x =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(df\_links\_sib)[}\DecValTok{11}\SpecialCharTok{:}\NormalTok{(}\DecValTok{11}\SpecialCharTok{+}\DecValTok{45}\NormalTok{)] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(df\_target)[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{47}\NormalTok{], }\StringTok{"\_S1"}\NormalTok{, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+\NormalTok{df\_links\_sib }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(df\_links\_sib, df\_target, }\AttributeTok{by.x =} \StringTok{"X2"}\NormalTok{, }\AttributeTok{by.y =} \StringTok{"PID"}\NormalTok{, }\AttributeTok{all.x =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(df\_links\_sib)[(}\DecValTok{11}\SpecialCharTok{+}\DecValTok{46}\NormalTok{)}\SpecialCharTok{:}\NormalTok{((}\DecValTok{11}\SpecialCharTok{+}\DecValTok{46}\NormalTok{)}\SpecialCharTok{+}\DecValTok{45}\NormalTok{)] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(df\_target)[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{47}\NormalTok{], }\StringTok{"\_S2"}\NormalTok{, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+
+\CommentTok{\# check self{-}esteem}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QM101M\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QM101M\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 98
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check mental health}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1905
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check life attitudes}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QM501\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QM501\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 960
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check trust tendency}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN1001\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN1001\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1907
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check attitudes towards society}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{WV101\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{WV101\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1901
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check math test}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{mathtest18\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{mathtest18\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1331
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check word test}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{wordtest18\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{wordtest18\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1331
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check mh\textasciitilde{}trust}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S2) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN1001\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN1001\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1898
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check mh\textasciitilde{}life\_att}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S2) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QM501\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QM501\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 955
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check mh\textasciitilde{}society}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S2) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{WV101\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{WV101\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1894
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# check mh\textasciitilde{}math}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{QN406\_S2) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{mathtest18\_S1) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(df\_links\_sib}\SpecialCharTok{$}\NormalTok{mathtest18\_S2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1330
+\end{verbatim}
+
+\end{document}
