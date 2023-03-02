@@ -1,6 +1,6 @@
 library(haven)
 library(discord)
-library(dplyr)
+library(tidyverse)
 
 df_links <- read.csv("data/siblinks.csv", sep = ",")
 df_p2018_c <- read_sas("data/cfps2018person_202012.sas7bdat")
@@ -69,20 +69,3 @@ rename(edu_S1 = CFPS2018EDUY_IM_S1,
        edu_S2 = CFPS2018EDUY_IM_S2)
 
 
-# run discord model
-
-df_final <- discord_data(data = df_links_clean,
-             outcome = "MH",
-             predictors = c("mathtest18","edu","birthyear","wordtest18"),
-             id = "rowid",
-             sex = NULL,
-             race = NULL,
-             pair_identifiers = c("_S1", "_S2"),
-             demographics = "none")
-
-# mathtest 
-lm(MH_mean~edu_mean+birthyear_mean+mathtest18_mean, data = df_final) |> prettify_regression_results()
-lm(MH_diff~edu_mean+birthyear_mean+MH_mean+mathtest18_mean+mathtest18_diff, data = df_final) |> prettify_regression_results()
-
-lm(MH_mean~edu_mean+birthyear_mean+wordtest18_mean, data = df_final) |> summary()
-lm(MH_diff~edu_mean+birthyear_mean+MH_mean+wordtest18_mean+wordtest18_diff, data = df_final) |> summary()

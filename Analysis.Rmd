@@ -6,8 +6,9 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-source("Data Analysis.R")
+source("data_prep.R")
 knitr::opts_chunk$set(echo = TRUE)
+library(psych)
 ```
 
 ## Output
@@ -15,10 +16,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r dataprep}
 # run discord model
-cor(df_target_c[,2:5], use = "complete")
+cor_output <- df_target_c %>%
+  select(mathtest18, wordtest18, CFPS2018EDUY_IM, MH) %>%
+  corr.test(use = "complete")
+print(cor_output$stars,quote=FALSE)
+
+print(cor_output$ci,quote=FALSE,digits=5)
+
+
+
 df_final <- discord_data(data = df_links_clean,
              outcome = "MH",
-             predictors = c("mathtest18","edu","birthyear","wordtest18"),
+             predictors = c("mathtest18",
+                            "edu",
+                            "birthyear",
+                            "wordtest18"),
              id = "rowid",
              sex = NULL,
              race = NULL,
@@ -30,17 +42,16 @@ df_final <- discord_data(data = df_links_clean,
 ```
 
 ### Mental Health ~ Education + Age + Mathtest
+
 ```{r analysis1}
 # mathtest 
-lm(MH_mean~edu_mean+birthyear_mean+mathtest18_mean, data = df_final) |> prettify_regression_results()
+lm(MH_mean ~ edu_mean + birthyear_mean + 
+       mathtest18_mean,
+   data = df_final) |> prettify_regression_results()
 
-lm(MH_diff~edu_mean+birthyear_mean+MH_mean+mathtest18_mean+mathtest18_diff, data = df_final) |> prettify_regression_results()
+lm(MH_diff ~ edu_mean + birthyear_mean + MH_mean + 
+       mathtest18_mean + mathtest18_diff,
+   data = df_final) |> prettify_regression_results()
 ```
 
-### Mental Health ~ Education + Age + wordtest
-```{r analysis2}
-# mathtest 
-lm(MH_mean~edu_mean+birthyear_mean+wordtest18_mean, data = df_final) |> prettify_regression_results()
 
-lm(MH_diff~edu_mean+birthyear_mean+MH_mean+wordtest18_mean+wordtest18_diff, data = df_final) |> prettify_regression_results()
-```
