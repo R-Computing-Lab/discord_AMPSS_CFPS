@@ -9,6 +9,44 @@ output: html_document
 source("data_prep.R")
 knitr::opts_chunk$set(echo = TRUE)
 library(psych)
+library(broom)
+library(standardize)
+
+# functions
+prettify_regression_results <- function(regression_object,standardize=FALSE) {
+    if(!standardize){
+      regression_object %>%
+        gtsummary::tbl_regression(intercept=TRUE, 
+                                  pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
+                                  estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3),
+                                  tidy_fun = gtsummary::tidy_standardize(.x))%>%
+          gtsummary::add_glance_source_note(
+              label = list(statistic ~ "F-statistic",
+                           df  ~ "DF1",
+                           df.residual  ~ "DF2"),
+              include = c(r.squared, statistic, df, df.residual, p.value, nobs)
+          ) %>%
+          gtsummary::modify_header(
+              statistic ~ "**t-statistic**", p.value ~ "**p-value**"
+          )}else{ # not standardize
+    
+       regression_object %>%
+            gtsummary::tbl_regression(intercept=TRUE, 
+                                      pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
+                                      estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3)
+            ) %>%
+        gtsummary::add_glance_source_note(
+            label = list(statistic ~ "F-statistic",
+                         df  ~ "DF1",
+                         df.residual  ~ "DF2"),
+            include = c(r.squared, statistic, df, df.residual, p.value, nobs)
+        ) %>%
+        gtsummary::modify_header(
+            statistic ~ "**t-statistic**", p.value ~ "**p-value**"
+        )
+            }}
+
+## this is still broken because of the standardized beta toggle. needs to be fixed!!!!
 ```
 
 ## Output
