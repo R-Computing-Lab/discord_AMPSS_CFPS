@@ -1,11 +1,29 @@
 library(haven)
 library(discord)
 library(dplyr)
-df_links <- read.csv("siblinks.csv", sep = ",")
-df_p2018_c <- read_sas("cfps2018person_202012.sas7bdat")
-df_c2018_c <- read_sas("cfps2018childproxy_202012.sas7bdat")
+
+df_links <- read.csv("data/siblinks.csv", sep = ",")
+df_p2018_c <- read_sas("data/cfps2018person_202012.sas7bdat")
+df_c2018_c <- read_sas("data/cfps2018childproxy_202012.sas7bdat")
+
+# functions
+prettify_regression_results <- function(regression_object) {
+    regression_object %>%
+        gtsummary::tbl_regression(intercept=TRUE) %>%
+        gtsummary::add_glance_source_note(
+            label = list(statistic ~ "F-statistic",
+                         df  ~ "DF1",
+                         df.residual  ~ "DF2"),
+            include = c(r.squared, statistic, df, df.residual, p.value, nobs)
+        ) %>%
+        gtsummary::modify_header(
+            statistic ~ "**t-statistic**", p.value ~ "**p-value**"
+        )
+}
+
 
 #data cleaning
+
 df_target <- df_p2018_c[,c("PID", 
                            #("QM2..$", names(df_p2018_c), value=TRUE), #personality
                            grep("QN4..$", names(df_p2018_c), value=TRUE, ignore.case = TRUE), #mental health
@@ -44,23 +62,13 @@ df_links_clean <- df_links_sib[complete.cases(df_links_sib),]
 #df_links_clean <- df_links_clean[df_links_clean$birthyear_S1<2000 & df_links_clean$birthyear_S2<2000,]
 #df_links_clean$gender_S1 <- as.factor(df_links_clean$gender_S1)
 #df_links_clean$gender_S2 <- as.factor(df_links_clean$gender_S2)
-colnames(df_links_clean)[8] <- "edu_S1"
-colnames(df_links_clean)[12] <- "edu_S2"
+
+#
+df_links_clean <- df_links_clean %>%
+rename(edu_S1 = CFPS2018EDUY_IM_S1,
+       edu_S2 = CFPS2018EDUY_IM_S2)
 
 
-prettify_regression_results <- function(regression_object) {
-    regression_object %>%
-        gtsummary::tbl_regression(intercept=TRUE) %>%
-        gtsummary::add_glance_source_note(
-            label = list(statistic ~ "F-statistic",
-                         df  ~ "DF1",
-                         df.residual  ~ "DF2"),
-            include = c(r.squared, statistic, df, df.residual, p.value, nobs)
-        ) %>%
-        gtsummary::modify_header(
-            statistic ~ "**t-statistic**", p.value ~ "**p-value**"
-        )
-}
 # run discord model
 
 df_final <- discord_data(data = df_links_clean,
