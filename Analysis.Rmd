@@ -11,42 +11,54 @@ knitr::opts_chunk$set(echo = TRUE)
 library(psych)
 library(broom)
 library(standardize)
-
+library(gtsummary)
+```
+```{r function}
 # functions
-prettify_regression_results <- function(regression_object,standardize=FALSE) {
-    if(!standardize){
-      regression_object %>%
-        gtsummary::tbl_regression(intercept=TRUE, 
-                                  pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
-                                  estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3),
-                                  tidy_fun = gtsummary::tidy_standardize(.x))%>%
-          gtsummary::add_glance_source_note(
-              label = list(statistic ~ "F-statistic",
-                           df  ~ "DF1",
-                           df.residual  ~ "DF2"),
-              include = c(r.squared, statistic, df, df.residual, p.value, nobs)
-          ) %>%
-          gtsummary::modify_header(
-              statistic ~ "**t-statistic**", p.value ~ "**p-value**"
-          )}else{ # not standardize
-    
-       regression_object %>%
-            gtsummary::tbl_regression(intercept=TRUE, 
+prettify_regression_results <- function(regression_object,
+                                        intercept=TRUE,
+                                        standardize=FALSE) {
+										
+temp <-  regression_object %>%
+            gtsummary::tbl_regression(intercept=intercept, 
                                       pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
                                       estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3)
             ) %>%
+        gtsummary::modify_header(
+            statistic ~ "**t-statistic**", p.value ~ "**p-value**"
+        ) %>%
         gtsummary::add_glance_source_note(
             label = list(statistic ~ "F-statistic",
                          df  ~ "DF1",
                          df.residual  ~ "DF2"),
             include = c(r.squared, statistic, df, df.residual, p.value, nobs)
-        ) %>%
-        gtsummary::modify_header(
-            statistic ~ "**t-statistic**", p.value ~ "**p-value**"
         )
-            }}
 
-## this is still broken because of the standardized beta toggle. needs to be fixed!!!!
+if(standardize){
+temp_stnd <-      regression_object %>%
+        gtsummary::tbl_regression(intercept=intercept, 
+                                  estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3),
+                                  pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
+                                  tidy_fun = gtsummary::tidy_standardize,
+								  conf.int=FALSE) %>%
+        gtsummary::modify_header(
+            estimate ~ "**β**"
+        ) 
+
+temp <-
+  tbl_merge(
+    list(temp_stnd, temp),
+    tab_spanner = c("**Standardized**", " ")
+  )
+}
+temp  
+}
+
+
+## this is still broken because of the standardized beta toggle. needs to be fixed!!!! it doesn't include p-values
+
+
+
 ```
 
 ## Output
@@ -85,7 +97,7 @@ df_final <- discord_data(data = df_links_clean,
 # mathtest 
 lm(MH_mean ~ edu_mean + birthyear_mean + 
        mathtest18_mean,
-   data = df_final) |> prettify_regression_results()
+   data = df_final) |> prettify_regression_results(standardize=TRUE)
 
 lm(MH_diff ~ edu_mean + birthyear_mean + MH_mean + 
        mathtest18_mean + mathtest18_diff,
