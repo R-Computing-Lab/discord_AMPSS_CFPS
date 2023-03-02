@@ -33,6 +33,7 @@ df_final <- discord_data(data = df_links_clean,
 ```{r analysis1}
 # mathtest 
 lm(MH_mean~edu_mean+birthyear_mean+mathtest18_mean, data = df_final) |> prettify_regression_results()
+
 lm(MH_diff~edu_mean+birthyear_mean+MH_mean+mathtest18_mean+mathtest18_diff, data = df_final) |> prettify_regression_results()
 ```
 
@@ -40,5 +41,6 @@ lm(MH_diff~edu_mean+birthyear_mean+MH_mean+mathtest18_mean+mathtest18_diff, data
 ```{r analysis2}
 # mathtest 
 lm(MH_mean~edu_mean+birthyear_mean+wordtest18_mean, data = df_final) |> prettify_regression_results()
+
 lm(MH_diff~edu_mean+birthyear_mean+MH_mean+wordtest18_mean+wordtest18_diff, data = df_final) |> prettify_regression_results()
 ```

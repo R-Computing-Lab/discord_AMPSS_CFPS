@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(haven)
-df_links <- read.csv("siblinks.csv", sep = ",")
-df_p2018_c <- read_sas("cfps2018person_202012.sas7bdat")
-df_c2018_c <- read_sas("cfps2018childproxy_202012.sas7bdat")
+df_links <- read.csv("data/siblinks.csv", sep = ",")
+df_p2018_c <- read_sas("data/cfps2018person_202012.sas7bdat")
+df_c2018_c <- read_sas("data/cfps2018childproxy_202012.sas7bdat")
 
 df_target <- df_p2018_c[,c("PID", 
                            #("QM2..$", names(df_p2018_c), value=TRUE), #personality
