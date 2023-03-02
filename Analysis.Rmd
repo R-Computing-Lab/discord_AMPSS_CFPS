@@ -17,8 +17,9 @@ library(psych)
 ```{r dataprep}
 # run discord model
 cor_output <- df_target_c %>%
-  select(mathtest18, wordtest18, CFPS2018EDUY_IM, MH) %>%
+  select(mathtest18, CFPS2018EDUY_IM, MH) %>%
   corr.test(use = "complete")
+
 print(cor_output$stars,quote=FALSE)
 
 print(cor_output$ci,quote=FALSE,digits=5)
@@ -29,8 +30,7 @@ df_final <- discord_data(data = df_links_clean,
              outcome = "MH",
              predictors = c("mathtest18",
                             "edu",
-                            "birthyear",
-                            "wordtest18"),
+                            "birthyear"),
              id = "rowid",
              sex = NULL,
              race = NULL,
@@ -43,7 +43,7 @@ df_final <- discord_data(data = df_links_clean,
 
 ### Mental Health ~ Education + Age + Mathtest
 
-```{r analysis1}
+```{r analysis}
 # mathtest 
 lm(MH_mean ~ edu_mean + birthyear_mean + 
        mathtest18_mean,
@@ -52,6 +52,17 @@ lm(MH_mean ~ edu_mean + birthyear_mean +
 lm(MH_diff ~ edu_mean + birthyear_mean + MH_mean + 
        mathtest18_mean + mathtest18_diff,
    data = df_final) |> prettify_regression_results()
+
+
+discord_regression(data = df_links_clean,
+             outcome = "MH",
+             predictors = c("mathtest18",
+                            "edu",
+                            "birthyear"),
+             id = "rowid",
+             sex = NULL,
+             race = NULL,
+             pair_identifiers = c("_S1", "_S2"))|> prettify_regression_results()
 ```
 
 
