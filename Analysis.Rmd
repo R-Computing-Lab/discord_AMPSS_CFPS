@@ -17,12 +17,13 @@ library(gtsummary)
 # functions
 prettify_regression_results <- function(regression_object,
                                         intercept=TRUE,
-                                        standardize=FALSE) {
+                                        standardize=FALSE,
+					digits=3) {
 										
 temp <-  regression_object %>%
             gtsummary::tbl_regression(intercept=intercept, 
-                                      pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
-                                      estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3)
+                                      pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = digits),
+                                      estimate_fun = ~ gtsummary::style_sigfig(.x, digits = digits)
             ) %>%
         gtsummary::modify_header(
             statistic ~ "**t-statistic**", p.value ~ "**p-value**"
@@ -37,8 +38,8 @@ temp <-  regression_object %>%
 if(standardize){
 temp_stnd <-      regression_object %>%
         gtsummary::tbl_regression(intercept=intercept, 
-                                  estimate_fun = ~ gtsummary::style_sigfig(.x, digits = 3),
-                                  pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = 3),
+                                  estimate_fun = ~ gtsummary::style_sigfig(.x, digits = digits),
+                                  pvalue_fun = ~ gtsummary::style_pvalue(.x, digits = digits),
                                   tidy_fun = gtsummary::tidy_standardize,
 								  conf.int=FALSE) %>%
         gtsummary::modify_header(
