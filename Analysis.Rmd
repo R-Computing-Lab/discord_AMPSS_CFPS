@@ -48,7 +48,7 @@ temp_stnd <-      regression_object %>%
 temp <-
   tbl_merge(
     list(temp_stnd, temp),
-    tab_spanner = c("**Standardized**", " ")
+    tab_spanner = c("**Standardized**", "** **")
   )
 }
 temp  
