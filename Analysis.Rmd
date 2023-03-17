@@ -34,7 +34,6 @@ temp <-  regression_object %>%
                          df.residual  ~ "DF2"),
             include = c(r.squared, statistic, df, df.residual, p.value, nobs)
         )
-
 if(standardize){
 temp_stnd <-      regression_object %>%
         gtsummary::tbl_regression(intercept=intercept, 
@@ -45,11 +44,10 @@ temp_stnd <-      regression_object %>%
         gtsummary::modify_header(
             estimate ~ "**β**"
         ) 
-
 temp <-
   tbl_merge(
     list(temp_stnd, temp),
-    tab_spanner = c("**Standardized**", "** **")
+    tab_spanner = c("**Standardized**", "**Unstandardized**")
   )
 }
 temp  
