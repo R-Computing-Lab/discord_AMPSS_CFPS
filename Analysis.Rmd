@@ -1,7 +1,7 @@
 ---
 title: "Analysis Output"
 author: "Xuanyu Lyu"
-date: "9/29/2022"
+date: "`r format(Sys.Date(), '%m/%d/%Y')`"
 output: html_document
 ---
 
@@ -12,8 +12,9 @@ library(psych)
 library(broom)
 library(standardize)
 library(gtsummary)
+library(flextable)
 ```
-```{r function}
+```{r function,include = FALSE}
 # functions
 prettify_regression_results <- function(regression_object,
                                         intercept=TRUE,
@@ -52,9 +53,48 @@ temp <-
 }
 temp  
 }
+FitFlextableToPage <- function(ft, pgwidth = 6){
 
+  ft_out <- ft %>%
+    flextable::autofit()
 
-## this is still broken because of the standardized beta toggle. needs to be fixed!!!! it doesn't include p-values
+  ft_out <- flextable::width(
+    ft_out,
+    width = dim(ft_out)$widths*pgwidth / (flextable::flextable_dim(ft_out)$widths)
+    )
+
+  return(ft_out)
+}
+make_summary_stats_table <- function(
+  summary_stats_data,
+  page_width = 6
+  ) {
+
+  out <- flextable::flextable(
+    summary_stats_data
+  ) %>%
+    flextable::fontsize(size = 12) %>%
+    flextable::bold(part = "header") %>%
+    flextable::set_header_labels(
+      skim_variable = "Variable",
+      n_obs = "Number of Observations",
+      numeric.mean = "Mean",
+      numeric.sd = "Standard Deviation",
+      numeric.p0 = "Minimum",
+      numeric.p25 = "25th Percentile",
+      numeric.p50 = "50th Percentile",
+      numeric.p75 = "75th Percentile",
+      numeric.p100 = "Maximum"
+    ) %>%
+    flextable::align_nottext_col("center") %>%
+    flextable::autofit()
+
+  FitFlextableToPage(
+    out,
+    pgwidth = page_width
+  )
+
+}
 
 
 
@@ -64,15 +104,43 @@ temp
 
 
 ```{r dataprep}
+df_target_c %>% select(-c(PID, wordtest18)) %>% skimr::skim() %>%
+    select(
+      -c(
+        skim_type,
+        complete_rate,
+        numeric.hist
+      )
+    ) %>%
+    mutate(
+      skim_variable = case_when(
+        skim_variable == "MH" ~ "Mental Health",
+        skim_variable == "mathtest18" ~ "Math Performance",
+        skim_variable == "CFPS2018EDUY_IM" ~ "Education",
+        TRUE ~ str_to_title(skim_variable)
+      ),
+      # How many observations are there for each variable?
+      # Missing subtracted from total NLSY Data Set
+      n_obs = 37354 - n_missing,
+      across(
+        .cols = where(is.numeric),
+        ~ round(.x, 2)
+      )
+    ) %>%
+    select(
+      -n_missing
+    ) %>%
+make_summary_stats_table()
+
 # run discord model
 cor_output <- df_target_c %>%
   select(mathtest18, CFPS2018EDUY_IM, MH) %>%
   corr.test(use = "complete")
 
+
 print(cor_output$stars,quote=FALSE)
 
 print(cor_output$ci,quote=FALSE,digits=5)
-
 
 
 df_final <- discord_data(data = df_links_clean,
@@ -94,13 +162,18 @@ df_final <- discord_data(data = df_links_clean,
 
 ```{r analysis}
 # mathtest 
+lm(MH_1 ~ edu_1 + birthyear_1 + 
+       mathtest18_1,
+   data = df_final) |> prettify_regression_results(standardize=TRUE)
+
+# mathtest 
 lm(MH_mean ~ edu_mean + birthyear_mean + 
        mathtest18_mean,
    data = df_final) |> prettify_regression_results(standardize=TRUE)
 
 lm(MH_diff ~ edu_mean + birthyear_mean + MH_mean + 
        mathtest18_mean + mathtest18_diff,
-   data = df_final) |> prettify_regression_results()
+   data = df_final) |> prettify_regression_results(standardize=TRUE)
 
 
 discord_regression(data = df_links_clean,

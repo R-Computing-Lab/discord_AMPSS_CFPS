@@ -53,4 +53,5 @@ df_links_clean <- df_links_clean %>%
 rename(edu_S1 = CFPS2018EDUY_IM_S1,
        edu_S2 = CFPS2018EDUY_IM_S2)
 
-
+df_target$birthyear <- df_p2018_c$IBIRTHY
+df_target$birthyear[df_target$birthyear <= -1] <- as.numeric(NA)
