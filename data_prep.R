@@ -34,6 +34,12 @@ df_target$MH <- apply(df_target[,c(6,8,14:19)],1,mean)
 
 df_target_c <- df_target[,c(1,11:13,20)]
 
+df_target_c <- df_target_c %>%
+  mutate(
+    CFPS2018EDUY_IM = scale(CFPS2018EDUY_IM)[,1],
+    mathtest18 = scale(mathtest18)[,1],
+    MH = scale(MH)[,1]
+  )
 
 df_links_sib <- df_links
 df_links_sib <- merge(df_links_sib, df_target_c, by.x = "X1", by.y = "PID", all.x = TRUE)

@@ -184,7 +184,18 @@ discord_regression(data = df_links_clean,
              id = "rowid",
              sex = NULL,
              race = NULL,
-             pair_identifiers = c("_S1", "_S2"))|> prettify_regression_results()
+             pair_identifiers = c("_S1", "_S2"))|> prettify_regression_results(standardize=FALSE) # true throws an rlang error
+
+
+discord_regression(data = df_links_clean,
+             outcome = "MH",
+             predictors = c("mathtest18",
+                            "edu",
+                            "birthyear"),
+             id = "rowid",
+             sex = NULL,
+             race = NULL,
+             pair_identifiers = c("_S1", "_S2")) %>% lm.beta::lm.beta( complete.standardization = TRUE)
 ```
 
 
